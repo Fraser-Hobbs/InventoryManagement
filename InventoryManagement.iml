@@ -10,20 +10,12 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/sqlite-jdbc-3.40.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/rs2xml.jar!/" />
+          <root url="jar://$MODULE_DIR$/sqlite-jdbc-3.40.1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/rs2xml.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/Downloads/rs2xml.jar!/src" />
+          <root url="jar://$MODULE_DIR$/rs2xml.jar!/src" />
         </SOURCES>
       </library>
     </orderEntry>

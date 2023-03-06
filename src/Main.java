@@ -1,9 +1,11 @@
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.sql.*;
 
 
@@ -22,6 +24,7 @@ public class Main {
     private JPanel buttonPanel;
     private JSpinner txt_Quantity;
     private JTextArea txt_Comment;
+    private JScrollPane tbl_Inventory_Scroll;
     boolean firstConnect = true;
 
 
@@ -52,7 +55,7 @@ public class Main {
                 System.out.println("Driver version: " + meta.getDriverVersion());
                 System.out.println("Product name: " + meta.getDatabaseProductName());
                 System.out.println("Product version: " + meta.getDatabaseProductVersion());
-                System.out.println("A new database has been created.");
+                System.out.println("Connected To DataBase.");
                 firstConnect = false;
             }
 
@@ -67,7 +70,7 @@ public class Main {
         String SQL = "INSERT INTO Inventory(itemName, itemComment, itemQuantity) VALUES(?,?,?)";
 
         try (Connection conn = this.connect();
-            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
             pstmt.setString(1, name);
             pstmt.setString(2, comment);
             pstmt.setInt(3, quantity);
@@ -82,12 +85,22 @@ public class Main {
 
 
     void loadTable () {
-        try (
-             PreparedStatement pstmt = connect().prepareStatement("SELECT itemName, itemComment, itemQuantity from Inventory")) {
+        try (PreparedStatement pstmt = connect().prepareStatement("SELECT _ID, itemName, itemComment, itemQuantity from Inventory")) {
+
             ResultSet rs = pstmt.executeQuery();
             tbl_Inventory.setModel(DbUtils.resultSetToTableModel(rs));
             tbl_Inventory.setDefaultEditor(Object.class, null);
             tbl_Inventory.getTableHeader().setEnabled(false);
+
+//          Set Column Names
+            JTableHeader header= tbl_Inventory.getTableHeader();
+            TableColumnModel colMod = header.getColumnModel();
+            String[] colNames = {"ID","Name","Comment","Quantity"};
+            for (int i = 0; i < tbl_Inventory.getColumnCount(); i++) {
+                TableColumn tabCol = colMod.getColumn(i);
+                tabCol.setHeaderValue(colNames[i]);
+                header.repaint();
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -97,29 +110,41 @@ public class Main {
     public Main() {
         connect();
         loadTable();
-        btn_Add.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        btn_Add.addActionListener(e -> {
 
-                String name = txt_Name.getText();
-                String comment = txt_Comment.getText();
-                int quantity = (int) txt_Quantity.getValue();
+            String name = txt_Name.getText();
+            String comment = txt_Comment.getText();
+            int quantity = (int) txt_Quantity.getValue();
 
-                if (name.length() < 1) {
-                    JOptionPane.showMessageDialog(null, "Record Failed To Add\nName Field Needs Completed");
-                } else if (name.length() > 1){
-                    if (!insert(name, comment, quantity)) {
-                        JOptionPane.showMessageDialog(null, "Record Failed To Add");
-                        loadTable();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Record Successfully Added!");
-                        loadTable();
-                    }
+            if (name.length() < 1) {
+                JOptionPane.showMessageDialog(null, "Record Failed To Add\nName Field Needs Completed");
+            } else if (name.length() > 1){
+                if (!insert(name, comment, quantity)) {
+                    JOptionPane.showMessageDialog(null, "Record Failed To Add");
+                    loadTable();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record Successfully Added!");
+                    loadTable();
                 }
-
-
-
             }
+
+
+
+        });
+        btn_Search.addActionListener(e -> {
+
+            try {
+                String id = txt_Search.getText();
+
+                PreparedStatement pstmt = connect().prepareStatement("SELECT itemName, itemComment, itemQuantity from Inventory WHERE id = ?");
+                pstmt.setString(1, id);
+
+
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
     }
 
