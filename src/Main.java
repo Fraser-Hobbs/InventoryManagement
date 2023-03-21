@@ -62,7 +62,6 @@ public class Main {
             if (ID.length() < 1) {
                 JOptionPane.showMessageDialog(null, "Record Failed To Add\nName Field Needs Completed");
             } else {
-                System.out.println("Attempting to Insert Data: ");
                 insert(ID, Software, Hardware);
 
                 loadTable(null);
@@ -77,7 +76,6 @@ public class Main {
                     JTable target = (JTable) e.getSource();
                     int row = target.getSelectedRow();
                     selectedID = (String) tbl_Inventory.getValueAt(row, 0);
-                    System.out.println("SelectedID: " + selectedID);
                     search((String) tbl_Inventory.getValueAt(row, 0));
 
                 }
@@ -120,12 +118,13 @@ public class Main {
             conn = DriverManager.getConnection(URL);
 
             if (conn != null && firstConnect) {
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("Driver name: " + meta.getDriverName());
-                System.out.println("Driver version: " + meta.getDriverVersion());
-                System.out.println("Product name: " + meta.getDatabaseProductName());
-                System.out.println("Product version: " + meta.getDatabaseProductVersion());
-                System.out.println("Connected To DataBase.");
+//                Outputs for Testing
+//                DatabaseMetaData meta = conn.getMetaData();
+//                System.out.println("Driver name: " + meta.getDriverName());
+//                System.out.println("Driver version: " + meta.getDriverVersion());
+//                System.out.println("Product name: " + meta.getDatabaseProductName());
+//                System.out.println("Product version: " + meta.getDatabaseProductVersion());
+//                System.out.println("Connected To DataBase.");
                 Statement stmt = conn.createStatement();
                 {
                     stmt.execute(SQL);
@@ -167,14 +166,12 @@ public class Main {
         String computerID = txt_ComputerID.getText();
         String Software = txt_Software.getText();
         String Hardware = txt_Hardware.getText();
-        System.out.println("selectedID: " + selectedID + "\n" + "computerID: " + computerID + "\n" + "Software: " + Software + "\n" + "Hardware: " + Hardware + "\n");
 
         if (!Objects.equals(selectedID, computerID) && search(computerID) && selectedID != null) {
             JOptionPane.showMessageDialog(null, "Computer ID Already In Use!");
         } else {
             if (search(selectedID)) {
                 String SQL = "UPDATE Inventory SET computerID = ?,Software = ?,Hardware = ? WHERE computerID = ?";
-                System.out.println("selectedID: " + selectedID + "\n" + "computerID: " + computerID + "\n" + "Software: " + Software + "\n" + "Hardware: " + Hardware + "\n");
 
                 try {
                     Connection conn = this.connect();
