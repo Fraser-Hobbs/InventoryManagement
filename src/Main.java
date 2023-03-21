@@ -21,6 +21,7 @@ public class Main {
     boolean firstConnect = true;
     String selectedID = null;
 //    UI Components
+
     private JPanel Main;
     private JTable tbl_Inventory;
     private JTextField txt_ComputerID;
@@ -28,13 +29,17 @@ public class Main {
     private JButton btn_Update;
     private JButton btb_Delete;
     private JTextField txt_Search;
+    @SuppressWarnings("unused")
     private JPanel infoPanel;
     private JTextArea txt_Software;
     private JTextArea txt_Hardware;
     private JButton btn_Clear;
     private JComboBox<String> searchOptions;
+    @SuppressWarnings("unused")
     private JPanel panel_left;
+    @SuppressWarnings("unused")
     private JPanel panel_right;
+    @SuppressWarnings("unused")
     private JScrollPane tbl_Inventory_Scroll;
 
     public Main() {
