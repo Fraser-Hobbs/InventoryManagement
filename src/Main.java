@@ -39,6 +39,7 @@ public class Main {
     private JPanel roomID;
     @SuppressWarnings("unused")
     private JPanel Ram;
+    @SuppressWarnings("unused")
     private JPanel Processor;
     @SuppressWarnings("unused")
     private JPanel systemType;
