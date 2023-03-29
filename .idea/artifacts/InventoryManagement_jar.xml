@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="InventoryManagement:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/InventoryManagement_jar</output-path>
+    <root id="archive" name="InventoryManagement.jar">
+      <element id="module-output" name="InventoryManagement" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/rs2xml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/sqlite-jdbc-3.40.1.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -73,7 +73,7 @@ public class Main {
         loadTable(null);
 
 //      Create Search Categories for JComboBox
-        String[] searchCategories = {"deviceID", "Processor", "Pro", "systemType", "roomID"};
+        String[] searchCategories = {"deviceID", "Processor", "RAM", "systemType", "roomID"};
         for (String category : searchCategories) {
             searchOptions.addItem(category);
         }
@@ -135,7 +135,8 @@ public class Main {
 
     //    Database - Connect & Create
     private Connection connect() {
-        String URL = "jdbc:sqlite:data/Inventory.db";
+
+        String URL = "jdbc:sqlite:Inventory.db";
         Connection conn = null;
         String SQL = """
                 CREATE TABLE IF NOT EXISTS Inventory (
